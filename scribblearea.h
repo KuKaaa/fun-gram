@@ -11,20 +11,26 @@ class ScribbleArea : public QWidget
     Q_OBJECT
 
 public:
-    ScribbleArea(QWidget *parent);
+    ScribbleArea(QWidget *parent = 0);
     /* sets pencil color, e.g. red(#FF0000) */
     void setPenColor(const QColor &newColor);
+
     /* sets pencil width */
     void setPenWidth(int newWidth);
+
     /* open image file */
     bool openImg(const QString &fileName);
+
     /* save img file */
     bool saveImg(const QString &fileName, const char *fileFormat);
 
+    /* checks if file is modified */
     bool isModified() const {return modified;}
 
+    /* pencil color */
     QColor penColor() const {return myPenColor;}
 
+    /* pencil width */
     int penWidth() const {return myPenWidth;}
 
 private slots:

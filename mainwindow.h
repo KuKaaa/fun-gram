@@ -31,16 +31,17 @@ private slots:
     void save();
 
     /* changes pencil color */
-    void pencilColor();
+    void penColor();
 
     /* changes pencil width */
-    void pencilWidth();
+    void penWidth();
 
+    /* displays about dialog */
     void about();
 
 private:
     /* creates actions */
-    void createActions();
+    void createActs();
 
     /* creates menu system*/
     void createMenu();
@@ -59,15 +60,16 @@ private:
     QMenu *optionMenu;
     QMenu *helpMenu;
 
-    QAction *openAction;
+    QList<QAction *> saveAsActs;
 
-    QList<QAction *> saveAsAction;
-
-    QAction *pencilColorAction;
-    QAction *pencilWidthAction;
-    QAction *printAction;
-    QAction *clsAction;
-    QAction *aboutQtAction;
+    QAction *openAct;
+    QAction *exitAct;
+    QAction *penColorAct;
+    QAction *penWidthAct;
+    QAction *printAct;
+    QAction *clsAct;
+    QAction *aboutAct;
+    QAction *aboutQtAct;
 
     Ui::MainWindow *ui;
 

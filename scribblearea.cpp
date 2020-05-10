@@ -63,3 +63,31 @@ void ScribbleArea::mousePressEvent(QMouseEvent *event) {
 	}
 }
 
+void ScribbleArea::mouseMoveEvent(QMouseEvent *event) {
+	if ((event->buttons() & Qt::LeftButton) && scribbling)
+		drawLineTo(event->pos());
+}
+
+void ScribbleArea::mouseReleaseEvent(QMouseEvent *event) {
+	if (event->button() == Qt::LeftButton && scribbling) {
+		drawLineTo(event->pos());
+		scribbling = false;
+	}
+}
+
+void ScribbleArea::paintEvent(QPaintEvent *event) {
+	QPainter painter(this);
+	QRect dirtyRect = event->rect();
+	painter.drawImage(dirtyRect, image, dirtyRect);
+}
+
+void ScribbleArea::resizeEvent(QResizeEvent *event) {
+	if (width() > image.width() || height() > image.height()) {
+		int newWidth = qMax(width() + 128, image.width());
+		int newHeight = qMax(height() + 128, image.height());
+		resizeImage(&image, QSize(newWidth, newHeight));
+		update();
+	}
+	QWidget::resizeEvent(event);
+}
+

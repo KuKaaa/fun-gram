@@ -130,30 +130,34 @@ void Main Window::createMenus(){
     menuBar()->addMenu(helpMenu);
 }
 
+bool MainWindow::maybeSave(){
+    if(scribbleArea->isModified()){
+        QMessageBox::StandardButton ret;
+        ret = QMessageBox::warning(this, tr("Scribble"),
+                                   tr("This image has been modified.\n"
+                                    "Do you want to save your changes?"),
+                                   QMessegeBox::Save | QMessageBox::Discard | QmessageBox::Cancel);
+        if(ret == QMessage::Save){
+            return saveFile("png");
+		}
+		else if (ret == QMessageBox::Cancel) {
+			return false;
+		}
+    }
+	return true;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+bool MainWindow::saveFile(const QByteArray &fileFormat) {
+	QString initialPath = QDir::currentPath() + "/untilted." + fileFormat;
+	QString fileName = QFilfeDialog::getSaveFileName(this, tr("Save As"),
+		initialPath,
+		tr("%1 Files (*,%2);; All Files(*)")
+		.arg(QString::fromLatin1(fileFormat.toUpper()))
+		.arg(QString::fromLatin1(fileFormat)));
+	if (fileName.isEmpty()) {
+		return false;
+	}
+	else {
+		return scribbleArea->saveImage(fileName, fileFormat.constData());
+	}
+}

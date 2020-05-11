@@ -62,6 +62,7 @@ private:
 
     QList<QAction *> saveAsActs;
 
+    QAction *exitAct;
     QAction *openAct;
     QAction *exitAct;
     QAction *penColorAct;

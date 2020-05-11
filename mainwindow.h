@@ -64,7 +64,6 @@ private:
 
     QAction *exitAct;
     QAction *openAct;
-    QAction *exitAct;
     QAction *penColorAct;
     QAction *penWidthAct;
     QAction *printAct;

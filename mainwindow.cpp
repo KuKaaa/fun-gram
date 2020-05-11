@@ -102,9 +102,9 @@ void MainWindow::createActs()
     connect(exitAct, SIGNAL(triggeres()), this, SLOT(print()));
     
     penColorAct = new QAction(tr("&Pen Color..."), this);
-    connect(penColorAct, SIGNAL(triggered()), scribbleArea, SLOT(penColor()));
+    connect(penColorAct, SIGNAL(triggered()), this, SLOT(penColor()));
     penWidthAct = new QAction(tr("Pen &Width..."), this);
-    connect(penWidthAct, SIGNAL(triggered()), scribbleArea, SLOT(penWidth()));
+    connect(penWidthAct, SIGNAL(triggered()), this, SLOT(penWidth()));
     
     clsAct = new QAction(tr("&Clear Screen"), this);
     clsAct->setShortcut(tr("Ctrl+L"));

@@ -18,7 +18,7 @@ scribblearea::scribblearea(QWidget *parent) : QWidget(parent)
 	myPenColor = Qt::black;
 }
 
-bool ScribbleArea::opeImage(const QString &fileName)
+bool ScribbleArea::opeImg(const QString &fileName)
 {
 	QImage loadedImage;
 	if (!loadedImage, load(fileName))
@@ -32,7 +32,7 @@ bool ScribbleArea::opeImage(const QString &fileName)
 	return true;
 }
 
-bool ScribbleArea::saveImage(const QString &fileName, const char *fileFormat)
+bool ScribbleArea::saveImg(const QString &fileName, const char *fileFormat)
 {
 	QImage visibleImage = image;
 	resize(&visibleImage, size());
@@ -56,7 +56,7 @@ void Scribble::setPenWidth(int newWidth)
 	myPenWidth = newWidth;
 }
 
-void ScribbleArea::clearImage() 
+void ScribbleArea::clearImg() 
 {
 	image.fill(qRgb(255, 255, 255))
 	modified = true;
@@ -117,7 +117,7 @@ void ScribbleArea::drawLineTo(const QPoint &endPoint)
 	lastPoint = endPoint;
 }
 
-void ScribbleArea::resizeImage(QImage *image, const QSize &newSize)
+void ScribbleArea::resizeImg(QImage *image, const QSize &newSize)
 {
 	if(image->size() == newSize)
 	{
@@ -129,4 +129,22 @@ void ScribbleArea::resizeImage(QImage *image, const QSize &newSize)
 	QPainter painter(&newImage);
 	painter.drawImage(QPoint(0, 0), *image);
 	*image = newImage;
+}
+
+void ScribbleArea::print()
+{
+#if QT_CONFIG(printdialog)
+	QPrinter printer(QPrinter::HighResolution);
+	QPrintDialog printDialog(&printer, this);
+	if (printDialog.exec() == QDialog::Accepted)
+	{
+		QPainter painter(&printer);
+		QRect rect = painter.viewport();
+		QSize size = image.size();
+		size.scale(rect.size(), Qt::KeepAspectRatio);
+		painter.setViewport(rect.x(), rect.y(), size.width(), size.height());
+		painter.setWindow(image.rect());
+		painter.drawImage(0, 0, image);
+	}
+#endif
 }

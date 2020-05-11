@@ -9,7 +9,7 @@
 
 #include "scribblearea.h"
 
-scribblearea::scribblearea(QWidget *parent) : QWidget(parent)
+Scribblearea::Scribblearea(QWidget *parent) : QWidget(parent)
 {
 	setAttribute(Qt::WA_StaticContents);
 	modified = false;
@@ -51,7 +51,7 @@ void ScribbleArea::setPenColor(const QColor &newColor)
 	myPenColor = newColor;
 }
 
-void Scribble::setPenWidth(int newWidth)
+void ScribbleArea::setPenWidth(int newWidth)
 {
 	myPenWidth = newWidth;
 }

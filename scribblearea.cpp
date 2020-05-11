@@ -116,3 +116,17 @@ void ScribbleArea::drawLineTo(const QPoint &endPoint)
 	update(QRect(lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad));
 	lastPoint = endPoint;
 }
+
+void ScribbleArea::resizeImage(QImage *image, const QSize &newSize)
+{
+	if(image->size() == newSize)
+	{
+		return;
+	}
+	
+	QImage newImage(newSize, QImage::Format_RGB32);
+	newImage.fill(qRgb(255,255,255));
+	QPainter painter(&newImage);
+	painter.drawImage(QPoint(0, 0), *image);
+	*image = newImage;
+}

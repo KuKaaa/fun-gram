@@ -134,7 +134,7 @@ void MainWindow::createMenu()
     optionMenu = new QMenu(tr("&Options"), this);
     optionMenu->addAction(penColorAct);
     optionMenu->addAction(penWidthAct);
-    fileMenu->addSeparator();
+    optionMenu->addSeparator();
     optionMenu->addAction(clsAct);
     
     helpMenu = new QMenu(tr("&Help"), this);

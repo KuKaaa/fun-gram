@@ -91,3 +91,12 @@ void ScribbleArea::resizeEvent(QResizeEvent *event) {
 	QWidget::resizeEvent(event);
 }
 
+void ScribbleArea::drawLineTo(const QPoint &endPoint){
+	QPainter painter(&image);
+	painter.setPen(QPen(myPenColor, myPenWidth, Qt::SolidLine, Qt::RoundCap, QtRoundJoin));
+	painter.drawLine(lastPoint, endPoint);
+	modified = true;
+	int rad = (myPenWidth / 2) + 2;
+	update(QRect(lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad));
+	lastPoint = endPoint;
+}

@@ -11,7 +11,7 @@ class ScribbleArea : public QWidget
     Q_OBJECT
 
 public:
-    ScribbleArea(QWidget *parent = 0);
+    ScribbleArea(QWidget *parent = nullptr);
     /* sets pencil color, e.g. red(#FF0000) */
     void setPenColor(const QColor &newColor);
 

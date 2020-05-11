@@ -9,7 +9,7 @@
 
 #include "scribblearea.h"
 
-Scribblearea::Scribblearea(QWidget *parent) : QWidget(parent)
+ScribbleArea::ScribbleArea(QWidget *parent) : QWidget(parent)
 {
 	setAttribute(Qt::WA_StaticContents);
 	modified = false;
@@ -18,15 +18,15 @@ Scribblearea::Scribblearea(QWidget *parent) : QWidget(parent)
 	myPenColor = Qt::black;
 }
 
-bool ScribbleArea::opeImg(const QString &fileName)
+bool ScribbleArea::openImg(const QString &fileName)
 {
 	QImage loadedImage;
-	if (!loadedImage, load(fileName))
+    if (!loadedImage.load(fileName))
 	{
 		return false;
 	}
 	QSize newSize = loadedImage.size().expandedTo(size());
-	resizeImage(&loadedImage, newSize);
+    resizeImg(&loadedImage, newSize);
 	image = loadedImage;
 	update();
 	return true;
@@ -36,7 +36,7 @@ bool ScribbleArea::saveImg(const QString &fileName, const char *fileFormat)
 {
 	QImage visibleImage = image;
 	resizeImg(&visibleImage, size());
-	if (visivleImage.save(fileName, fileFormat)) 
+    if (visibleImage.save(fileName, fileFormat))
 	{
 		modified = false;
 		return true;
@@ -58,7 +58,7 @@ void ScribbleArea::setPenWidth(int newWidth)
 
 void ScribbleArea::clearImg() 
 {
-	image.fill(qRgb(255, 255, 255))
+    image.fill(qRgb(255, 255, 255));
 	modified = true;
 	update();
 }
@@ -100,7 +100,7 @@ void ScribbleArea::resizeEvent(QResizeEvent *event)
 	{
 		int newWidth = qMax(width() + 128, image.width());
 		int newHeight = qMax(height() + 128, image.height());
-		resizeImage(&image, QSize(newWidth, newHeight));
+        resizeImg(&image, QSize(newWidth, newHeight));
 		update();
 	}
 	QWidget::resizeEvent(event);
@@ -109,7 +109,7 @@ void ScribbleArea::resizeEvent(QResizeEvent *event)
 void ScribbleArea::drawLineTo(const QPoint &endPoint)
 {
 	QPainter painter(&image);
-	painter.setPen(QPen(myPenColor, myPenWidth, Qt::SolidLine, Qt::RoundCap, QtRoundJoin));
+    painter.setPen(QPen(myPenColor, myPenWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	painter.drawLine(lastPoint, endPoint);
 	modified = true;
 	int rad = (myPenWidth / 2) + 2;
@@ -131,7 +131,7 @@ void ScribbleArea::resizeImg(QImage *image, const QSize &newSize)
 	*image = newImage;
 }
 
-void ScribbleArea::print()
+void ScribbleArea::printImg()
 {
 #if QT_CONFIG(printdialog)
 	QPrinter printer(QPrinter::HighResolution);

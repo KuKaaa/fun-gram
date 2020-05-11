@@ -19,7 +19,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    scribblearea.cpp
 
 HEADERS += \
     mainwindow.h \

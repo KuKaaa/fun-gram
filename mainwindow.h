@@ -52,14 +52,20 @@ private:
     /* save file */
     bool saveFile(const QByteArray &file);
 
+    /* perform GaussBlur on image */
+    void gaussBlur(const QByteArray &file);
+
     /* paint area where draw */
     ScribbleArea *scribbleArea;
 
+    /* MENU BAR components */
     QMenu *saveAsMenu;
     QMenu *fileMenu;
     QMenu *optionMenu;
     QMenu *helpMenu;
+    QMenu *filterMenu;
 
+    /* QList for all our Actions below */
     QList<QAction *> saveAsActs;
 
     QAction *exitAct;
@@ -69,7 +75,9 @@ private:
     QAction *printAct;
     QAction *clsAct;
     QAction *aboutAct;
-    QAction *aboutQtAct;
+
+    /* GaussianBlurAct */
+    QAction *gaussBlurAct;
 
     Ui::MainWindow *ui;
 

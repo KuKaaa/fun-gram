@@ -207,6 +207,7 @@ void MainWindow::gaussBlur(const QByteArray &file)
 {
 
     //CODE
+    import QtGraphicalEffects 1.14
 
 
 }

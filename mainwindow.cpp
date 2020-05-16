@@ -206,8 +206,13 @@ bool MainWindow::saveFile(const QByteArray &fileFormat)
 void MainWindow::gaussBlur(const QByteArray &file)
 {
 
-    //CODE
-    import QtGraphicalEffects 1.14
+    void GaussianBlur::GetPixelMatrix(const QPoint &center, const QImage &image, QRgb** matrix)
+    {
+    QSize image_size = image.size();
+    for (int i = 0; i < size_; i++)
+        for (int j = 0; j < size_; j++)
+            matrix[i][j] = image.pixel(GetCoordinate(QPoint(i, j) + center, image_size));
+    }
 
 
 }

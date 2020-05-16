@@ -3,6 +3,7 @@
 #include "scribblearea.h"
 
 #include <QtWidgets>
+#include <QMessageBox>
 
 /* MainWindow Constructor */
 MainWindow::MainWindow(QWidget *parent)
@@ -10,13 +11,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     scribbleArea = new ScribbleArea;
+    //QIcon icon(":/icons/appIcon.png");
 
     setCentralWidget(scribbleArea);
     createActs();
     createMenu();
     setWindowTitle("Fun-Gram");
     setMinimumSize(1280, 720);
-    //setWindowIcon();
+    //setWindowIcon(icon);
 
     //ui->setupUi(this);
     //this->setWindowTitle("Fun-Gram");
@@ -68,7 +70,7 @@ void MainWindow::penWidth()
 {
     bool ok;
 
-    int newWidth = QInputDialog::getInt(this, tr("Pen Width"), tr("Select your pen width : "), scribbleArea->penWidth(), 1, 50, 1, &ok);
+    int newWidth = QInputDialog::getInt(this, tr("Pen Width"), tr("Please select your pen width : "), scribbleArea->penWidth(), 1, 50, 1, &ok);
 
     if(ok)
         scribbleArea->setPenWidth(newWidth);
@@ -76,7 +78,16 @@ void MainWindow::penWidth()
 
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("About Scribble"), tr("<p>The <b>Scribble</b> example is awesome</p>"));
+    QMessageBox aboutBox;
+    aboutBox.setWindowTitle("About Fun-Gram");
+    aboutBox.setInformativeText("Fun-Gram is a free paint type application, that let's you draw and edit raster graphics");
+    aboutBox.setStyleSheet("background: #FFFFFF; border: none; font-family: Cambria; font-style: bold; font-size: 16px; color: #000000;");
+
+    QAbstractButton* bttn;
+    bttn = aboutBox.addButton(tr("Great!"), QMessageBox::YesRole);
+    bttn->setStyleSheet("background: #FFFFFF; font-family: Cambria; color: #000000");
+
+    aboutBox.exec();
 }
 
 void MainWindow::createActs()
@@ -105,6 +116,7 @@ void MainWindow::createActs()
     connect(penColorAct, SIGNAL(triggered()), this, SLOT(penColor()));
 
     penWidthAct = new QAction(tr("&Pen Width..."), this);
+    penWidthAct->setShortcut(tr("Ctrl + Q"));
     connect(penWidthAct, SIGNAL(triggered()), this, SLOT(penWidth()));
     
     clsAct = new QAction(tr("&Cls"), this);
@@ -112,10 +124,11 @@ void MainWindow::createActs()
     connect(clsAct, SIGNAL(triggered()), scribbleArea, SLOT(clearImg()));
     
     aboutAct = new QAction(tr("&About..."), this);
-    connect(aboutAct, SIGNAL(triggered()), scribbleArea, SLOT(aboutAct()));
+    connect(aboutAct, SIGNAL(triggered()), scribbleArea, SLOT(about()));
+
+    gaussBlurAct = new QAction(tr("&Gauss Blur"), this);
+    connect(aboutAct, SIGNAL(triggered()), scribbleArea, SLOT(gaussBlur()));
     
-    aboutQtAct = new QAction(tr("&About Qt..."), this);
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQtAct()));
 }
 
 void MainWindow::createMenu()
@@ -134,6 +147,10 @@ void MainWindow::createMenu()
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 
+    filterMenu = new QMenu(tr("&Filters"),  this);
+    filterMenu->addAction(gaussBlurAct);
+
+
     optionMenu = new QMenu(tr("&Options"), this);
     optionMenu->addAction(penColorAct);
     optionMenu->addAction(penWidthAct);
@@ -142,7 +159,6 @@ void MainWindow::createMenu()
     
     helpMenu = new QMenu(tr("&Help"), this);
     helpMenu->addAction(aboutAct);
-    helpMenu->addAction(aboutQtAct);
     
     menuBar()->addMenu(fileMenu);
     menuBar()->addMenu(optionMenu);
@@ -152,15 +168,15 @@ void MainWindow::createMenu()
 bool MainWindow::maybeSave(){
     if(scribbleArea->isModified())
     {
-        QMessageBox::StandardButton ret;
-        ret = QMessageBox::warning(this, tr("Scribble"),
+        QMessageBox::StandardButton retVal;
+        retVal = QMessageBox::warning(this, tr("Scribble"),
                                    tr("This image has been modified.\n"
                                     "Do you want to save your changes?"),
                                    QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 
-        if(ret == QMessageBox::Save)
+        if(retVal == QMessageBox::Save)
             return saveFile("png");
-        else if (ret == QMessageBox::Cancel)
+        else if (retVal == QMessageBox::Cancel)
             return false;
     }
 
@@ -185,4 +201,12 @@ bool MainWindow::saveFile(const QByteArray &fileFormat)
     {
         return scribbleArea->saveImg(fileName, fileFormat.constData());
     }
+}
+
+void MainWindow::gaussBlur(const QByteArray &file)
+{
+
+    //CODE
+
+
 }

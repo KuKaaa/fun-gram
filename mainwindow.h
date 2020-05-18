@@ -24,6 +24,9 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 
 private slots:
+    /* Exits program */
+    void exit();
+
     /* open image file */
     void open();
 

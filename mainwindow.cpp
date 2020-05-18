@@ -94,23 +94,22 @@ void MainWindow::createActs()
 {
     openAct = new QAction(tr("&Open"), this);
     openAct->setShortcuts(QKeySequence::Open);
-    connect(openAct, SIGNAL(triggered()), this, SLOT(openAct()));
+    connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
 
     foreach(QByteArray format, QImageWriter::supportedImageFormats())
     {
         QString text = tr("%1...").arg(QString(format).toUpper());
         QAction *action = new QAction(text, this);
         action->setData(format);
-        connect(action, SIGNAL(triggered()), scribbleArea, SLOT(printAct()));
+        connect(action, SIGNAL(triggered()), this, SLOT(save()));
         saveAsActs.append(action);
     }
 
     printAct = new QAction(tr("&Print..."), this);
-    connect(printAct, SIGNAL(triggered()), scribbleArea, SLOT(printAct()));
+    connect(printAct, SIGNAL(triggered()), scribbleArea, SLOT(print()));
 
     exitAct = new QAction(tr("&Exit"), this);
-    exitAct->setShortcuts(QKeySequence::Quit);
-    connect(exitAct, SIGNAL(triggeres()), this, SLOT(exitAct()));
+    connect(exitAct, SIGNAL(triggered()), this, SLOT(exit()));
     
     penColorAct = new QAction(tr("&Pen Color..."), this);
     connect(penColorAct, SIGNAL(triggered()), this, SLOT(penColor()));
@@ -127,7 +126,7 @@ void MainWindow::createActs()
     connect(aboutAct, SIGNAL(triggered()), scribbleArea, SLOT(about()));
 
     gaussBlurAct = new QAction(tr("&Gauss Blur"), this);
-    connect(aboutAct, SIGNAL(triggered()), scribbleArea, SLOT(gaussBlur()));
+    connect(gaussBlurAct, SIGNAL(triggered()), scribbleArea, SLOT(gaussBlur()));
     
 }
 
@@ -157,21 +156,25 @@ void MainWindow::createMenu()
     optionMenu->addSeparator();
     optionMenu->addAction(clsAct);
     
-    helpMenu = new QMenu(tr("&Help"), this);
+
+    helpMenu = new QMenu(tr("&About"), this);
+    //helpMenu->addAction(helpAct);
+    helpMenu->addSeparator();
     helpMenu->addAction(aboutAct);
     
     menuBar()->addMenu(fileMenu);
+    menuBar()->addMenu(filterMenu);
     menuBar()->addMenu(optionMenu);
     menuBar()->addMenu(helpMenu);
+
 }
 
 bool MainWindow::maybeSave(){
     if(scribbleArea->isModified())
     {
         QMessageBox::StandardButton retVal;
-        retVal = QMessageBox::warning(this, tr("Scribble"),
-                                   tr("This image has been modified.\n"
-                                    "Do you want to save your changes?"),
+        retVal = QMessageBox::warning(this, tr("Fun-Gram"),
+                                   tr("This image has been modified.\nDo you want to save your changes?"),
                                    QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 
         if(retVal == QMessageBox::Save)
@@ -188,10 +191,7 @@ bool MainWindow::saveFile(const QByteArray &fileFormat)
     QString initialPath = QDir::currentPath() + "/*." + fileFormat;
 
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"),
-        initialPath,
-        tr("%1 Files (*,%2);; All Files(*)")
-        .arg(QString::fromLatin1(fileFormat.toUpper()))
-        .arg(QString::fromLatin1(fileFormat)));
+        initialPath, tr("%1 Files (*,%2);; All Files(*)").arg(QString::fromLatin1(fileFormat.toUpper())).arg(QString::fromLatin1(fileFormat)));
 
     if (fileName.isEmpty())
     {
@@ -203,4 +203,28 @@ bool MainWindow::saveFile(const QByteArray &fileFormat)
     }
 }
 
+void MainWindow::exit()
+{
+    QMessageBox closeMsg;
+    closeMsg.setWindowTitle(tr("Exit"));
+    //closeMsg.setIcon();
+    closeMsg.setInformativeText("Are you really want to exit?");
 
+    QAbstractButton* bttnY = closeMsg.addButton(tr("Yes"), QMessageBox::YesRole);
+    closeMsg.addButton(tr("No"), QMessageBox::NoRole);
+
+    closeMsg.exec();
+
+    if (closeMsg.clickedButton() == bttnY)
+    {
+        QApplication::quit();
+    }
+}
+
+void MainWindow::gaussBlur(const QByteArray &file)
+{
+
+    //CODE
+
+
+}

@@ -2,8 +2,10 @@
 #if defined(QT_PRINTSUPPORT_LIB)
 #include <QtPrintSupport/qtprintsupportglobal.h>
 #if QT_CONFIG(printdialog)
+
 #include <QPrinter>
 #include <QPrintDialog>
+
 #endif
 #endif
 

@@ -55,8 +55,23 @@ private:
     /* save file */
     bool saveFile(const QByteArray &file);
 
+    /* ----------------------------------------- */
+    /* ---------Image Filtering methods--------- */
+    /* ----------------------------------------- */
+
     /* perform GaussBlur on image */
-    void gaussBlur(const QByteArray &file);
+    void gaussBlur();
+
+    /* perform Laplacian Filtering */
+    void lapFilter();
+
+    /* perform Gradient Directional filtering */
+    void gradientFilter();
+
+    /* perform Outline filtering */
+    void outlineFilter();
+
+    /* ----------------------------------------- */
 
     /* paint area where draw */
     ScribbleArea *scribbleArea;
@@ -79,8 +94,11 @@ private:
     QAction *clsAct;
     QAction *aboutAct;
 
-    /* GaussianBlurAct */
+    /* Filter Actions */
     QAction *gaussBlurAct;
+    QAction *lapFilterAct;
+    QAction *gradientFilterAct;
+    QAction *outlineFilterAct;
 
     Ui::MainWindow *ui;
 

@@ -1,9 +1,12 @@
-#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "scribblearea.h"
+#include "mainwindow.h"
 
 #include <QtWidgets>
 #include <QMessageBox>
+#include <QMatrix3x3>
+
+#include <QTextStream>
 
 /* MainWindow Constructor */
 MainWindow::MainWindow(QWidget *parent)
@@ -106,7 +109,7 @@ void MainWindow::createActs()
     }
 
     printAct = new QAction(tr("&Print..."), this);
-    connect(printAct, SIGNAL(triggered()), scribbleArea, SLOT(print()));
+    connect(printAct, SIGNAL(triggered()), scribbleArea, SLOT(printImg()));
 
     exitAct = new QAction(tr("&Exit"), this);
     connect(exitAct, SIGNAL(triggered()), this, SLOT(exit()));
@@ -123,11 +126,19 @@ void MainWindow::createActs()
     connect(clsAct, SIGNAL(triggered()), scribbleArea, SLOT(clearImg()));
     
     aboutAct = new QAction(tr("&About..."), this);
-    connect(aboutAct, SIGNAL(triggered()), scribbleArea, SLOT(about()));
+    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 
     gaussBlurAct = new QAction(tr("&Gauss Blur"), this);
-    connect(gaussBlurAct, SIGNAL(triggered()), scribbleArea, SLOT(gaussBlur()));
-    
+    connect(gaussBlurAct, SIGNAL(triggered()), this, SLOT(gaussBlur()));
+
+    lapFilterAct = new QAction(tr("&Laplacian Edge Detection"), this);
+    connect(lapFilterAct, SIGNAL(triggered()), this, SLOT(lapFilter()));
+
+    gradientFilterAct = new QAction(tr("&Gradient Directional Filter"), this);
+    connect(gradientFilterAct, SIGNAL(triggered()), this, SLOT(gradientFilter()));
+
+    outlineFilterAct = new QAction(tr("&Outline Filter"), this);
+    connect(outlineFilterAct, SIGNAL(triggered()), this, SLOT(outlineFilter()));
 }
 
 void MainWindow::createMenu()
@@ -148,7 +159,9 @@ void MainWindow::createMenu()
 
     filterMenu = new QMenu(tr("&Filters"),  this);
     filterMenu->addAction(gaussBlurAct);
-
+    filterMenu->addAction(lapFilterAct);
+    filterMenu->addAction(gradientFilterAct);
+    filterMenu->addAction(outlineFilterAct);
 
     optionMenu = new QMenu(tr("&Options"), this);
     optionMenu->addAction(penColorAct);
@@ -213,6 +226,9 @@ void MainWindow::exit()
     QAbstractButton* bttnY = closeMsg.addButton(tr("Yes"), QMessageBox::YesRole);
     closeMsg.addButton(tr("No"), QMessageBox::NoRole);
 
+    closeMsg.setStyleSheet("background: #FFFFFF; border: none; font-family: Cambria; font-style: bold; font-size: 16px; color: #000000;");
+    bttnY->setStyleSheet("background: #FFFFFF; font-family: Cambria; color: #000000");
+
     closeMsg.exec();
 
     if (closeMsg.clickedButton() == bttnY)
@@ -221,10 +237,81 @@ void MainWindow::exit()
     }
 }
 
-void MainWindow::gaussBlur(const QByteArray &file)
+void MainWindow::gaussBlur()
+{
+    //For testing only
+    //QString fileName = QFileDialog::getOpenFileName(this,tr("Select files"),"",tr("JPG (*.jpg);;PNG (*.png);;All file types (*.*)"));
+
+    QMessageBox aboutBox;
+    aboutBox.setWindowTitle("About Fun-Gram");
+    aboutBox.setInformativeText("Fun-Gram is a free paint type application, that let's you draw and edit raster graphics");
+    aboutBox.setStyleSheet("background: #FFFFFF; border: none; font-family: Cambria; font-style: bold; font-size: 16px; color: #000000;");
+
+    aboutBox.exec();
+
+
+    QMatrix3x3 gaussKernel;
+    gaussKernel(0, 0) = 1;  gaussKernel(0, 1) = 2;  gaussKernel(0, 2) = 1;
+    gaussKernel(1, 0) = 2;  gaussKernel(1, 1) = 4;  gaussKernel(1, 2) = 2;
+    gaussKernel(2, 0) = 1;  gaussKernel(2, 1) = 2;  gaussKernel(2, 2) = 1;
+
+    float gauss = 16.0;
+
+
+}
+
+void MainWindow::lapFilter()
+{
+    //For testing only
+    //QString fileName = QFileDialog::getOpenFileName(this,tr("Select files"),"",tr("JPG (*.jpg);;PNG (*.png);;All file types (*.*)"));
+
+    QMessageBox aboutBox;
+    aboutBox.setWindowTitle("About Fun-Gram");
+    aboutBox.setInformativeText("Fun-Gram is a free paint type application, that let's you draw and edit raster graphics");
+    aboutBox.setStyleSheet("background: #FFFFFF; border: none; font-family: Cambria; font-style: bold; font-size: 16px; color: #000000;");
+
+    aboutBox.exec();
+
+    QMatrix3x3 lapKernel;
+    lapKernel(0, 0) = -1;    lapKernel(0, 1) = -1;    lapKernel(0, 2) = -1;
+    lapKernel(1, 0) = -1;    lapKernel(1, 1) = 8;    lapKernel(1, 2) = -1;
+    lapKernel(2, 0) = -1;    lapKernel(2, 1) = -1;    lapKernel(2, 2) = -1;
+
+}
+
+
+void MainWindow::gradientFilter()
 {
 
-    //CODE
+    QMessageBox aboutBox;
+    aboutBox.setWindowTitle("About Fun-Gram");
+    aboutBox.setInformativeText("Fun-Gram is a free paint type application, that let's you draw and edit raster graphics");
+    aboutBox.setStyleSheet("background: #FFFFFF; border: none; font-family: Cambria; font-style: bold; font-size: 16px; color: #000000;");
+
+    aboutBox.exec();
+
+    QMatrix3x3 gradientKernel;
+    gradientKernel(0, 0) = -1;    gradientKernel(0, 1) = 1;    gradientKernel(0, 2) = 1;
+    gradientKernel(1, 0) = -1;    gradientKernel(1, 1) = -2;    gradientKernel(1, 2) = 1;
+    gradientKernel(2, 0) = -1;    gradientKernel(2, 1) = 1;    gradientKernel(2, 2) = 1;
+
+
+}
+
+void MainWindow::outlineFilter()
+{
+
+    QMessageBox aboutBox;
+    aboutBox.setWindowTitle("About Fun-Gram");
+    aboutBox.setInformativeText("Fun-Gram is a free paint type application, that let's you draw and edit raster graphics");
+    aboutBox.setStyleSheet("background: #FFFFFF; border: none; font-family: Cambria; font-style: bold; font-size: 16px; color: #000000;");
+
+    aboutBox.exec();
+
+    QMatrix3x3 outlineKernel;
+    outlineKernel(0, 0) = 1;    outlineKernel(0, 1) = 2;    outlineKernel(0, 2) = 1;
+    outlineKernel(1, 0) = 0;    outlineKernel(1, 1) = 0;    outlineKernel(1, 2) = 0;
+    outlineKernel(2, 0) = -1;    outlineKernel(2, 1) = -2;    outlineKernel(2, 2) = -1;
 
 
 }

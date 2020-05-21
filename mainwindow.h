@@ -42,6 +42,8 @@ private slots:
     /* displays about dialog */
     void about();
 
+    void openFilters();
+
 private:
     /* creates actions */
     void createActs();
@@ -54,24 +56,6 @@ private:
 
     /* save file */
     bool saveFile(const QByteArray &file);
-
-    /* ----------------------------------------- */
-    /* ---------Image Filtering methods--------- */
-    /* ----------------------------------------- */
-
-    /* perform GaussBlur on image */
-    void gaussBlur();
-
-    /* perform Laplacian Filtering */
-    void lapFilter();
-
-    /* perform Gradient Directional filtering */
-    void gradientFilter();
-
-    /* perform Outline filtering */
-    void outlineFilter();
-
-    /* ----------------------------------------- */
 
     /* paint area where draw */
     ScribbleArea *scribbleArea;
@@ -94,11 +78,8 @@ private:
     QAction *clsAct;
     QAction *aboutAct;
 
-    /* Filter Actions */
-    QAction *gaussBlurAct;
-    QAction *lapFilterAct;
-    QAction *gradientFilterAct;
-    QAction *outlineFilterAct;
+    /* Filter Action */
+    QAction *openFilterAct;
 
     Ui::MainWindow *ui;
 

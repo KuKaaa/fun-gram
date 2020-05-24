@@ -168,6 +168,32 @@ void FilterWindow::on_action_Gradient_Directional_Filter_triggered()
     gradientKernel(1, 0) = -1;    gradientKernel(1, 1) = -2;    gradientKernel(1, 2) = 1;
     gradientKernel(2, 0) = -1;    gradientKernel(2, 1) = 1;    gradientKernel(2, 2) = 1;
 
+    for(int i = 0 ; i<img.width()-1; i++)
+    {
+        for(int j = 0 ; j<img.height()-1; j++)
+        {
+            float red = 0, green = 0, blue = 0;
+
+            red =
+                    gradientKernel(0, 0) * qRed(img.pixel(i+1, j+1)) + gradientKernel(0, 1) * qRed(img.pixel(i, j+1)) + gradientKernel(0, 2) * qRed(img.pixel(i-1, j+1)) +
+                    gradientKernel(1, 0) * qRed(img.pixel(i+1, j)) + gradientKernel(1, 1) * qRed(img.pixel(i, j)) + gradientKernel(1, 2) * qRed(img.pixel(i-1, j)) +
+                    gradientKernel(2, 0) * qRed(img.pixel(i+1, j-1)) + gradientKernel(2, 1) * qRed(img.pixel(i, j-1)) + gradientKernel(2, 2) * qRed(img.pixel(i-1, j-1));
+
+            green =
+                    gradientKernel(0, 0) * qGreen(img.pixel(i+1, j+1)) + gradientKernel(0, 1) * qGreen(img.pixel(i, j+1)) + gradientKernel(0, 2) * qGreen(img.pixel(i-1, j+1)) +
+                    gradientKernel(1, 0) * qGreen(img.pixel(i+1, j)) + gradientKernel(1, 1) * qGreen(img.pixel(i, j)) + gradientKernel(1, 2) * qGreen(img.pixel(i-1, j)) +
+                    gradientKernel(2, 0) * qGreen(img.pixel(i+1, j-1)) + gradientKernel(2, 1) * qGreen(img.pixel(i, j-1)) + gradientKernel(2, 2) * qGreen(img.pixel(i-1, j-1));
+
+            blue =
+                    gradientKernel(0, 0) * qBlue(img.pixel(i+1, j+1)) + gradientKernel(0, 1) * qBlue(img.pixel(i, j+1)) + gradientKernel(0, 2) * qBlue(img.pixel(i-1, j+1)) +
+                    gradientKernel(1, 0) * qBlue(img.pixel(i+1, j)) + gradientKernel(1, 1) * qBlue(img.pixel(i, j)) + gradientKernel(1, 2) * qBlue(img.pixel(i-1, j)) +
+                    gradientKernel(2, 0) * qBlue(img.pixel(i+1, j-1)) + gradientKernel(2, 1) * qBlue(img.pixel(i, j-1)) + gradientKernel(2, 2) * qBlue(img.pixel(i-1, j-1));
+
+            img.setPixel(i, j, qRgb(abs(red), abs(green), abs(blue)));
+        }
+    }
+
+    ui->label->setPixmap(QPixmap::fromImage(img));
 }
 
 void FilterWindow::on_action_Outline_Filter_triggered()
@@ -180,6 +206,32 @@ void FilterWindow::on_action_Outline_Filter_triggered()
     outlineKernel(1, 0) = 0;    outlineKernel(1, 1) = 0;    outlineKernel(1, 2) = 0;
     outlineKernel(2, 0) = -1;    outlineKernel(2, 1) = -2;    outlineKernel(2, 2) = -1;
 
+    for(int i = 0 ; i<img.width()-1; i++)
+    {
+        for(int j = 0 ; j<img.height()-1; j++)
+        {
+            float red = 0, green = 0, blue = 0;
+
+            red =
+                    outlineKernel(0, 0) * qRed(img.pixel(i+1, j+1)) + outlineKernel(0, 1) * qRed(img.pixel(i, j+1)) + outlineKernel(0, 2) * qRed(img.pixel(i-1, j+1)) +
+                    outlineKernel(1, 0) * qRed(img.pixel(i+1, j)) + outlineKernel(1, 1) * qRed(img.pixel(i, j)) + outlineKernel(1, 2) * qRed(img.pixel(i-1, j)) +
+                    outlineKernel(2, 0) * qRed(img.pixel(i+1, j-1)) + outlineKernel(2, 1) * qRed(img.pixel(i, j-1)) + outlineKernel(2, 2) * qRed(img.pixel(i-1, j-1));
+
+            green =
+                    outlineKernel(0, 0) * qGreen(img.pixel(i+1, j+1)) + outlineKernel(0, 1) * qGreen(img.pixel(i, j+1)) + outlineKernel(0, 2) * qGreen(img.pixel(i-1, j+1)) +
+                    outlineKernel(1, 0) * qGreen(img.pixel(i+1, j)) + outlineKernel(1, 1) * qGreen(img.pixel(i, j)) + outlineKernel(1, 2) * qGreen(img.pixel(i-1, j)) +
+                    outlineKernel(2, 0) * qGreen(img.pixel(i+1, j-1)) + outlineKernel(2, 1) * qGreen(img.pixel(i, j-1)) + outlineKernel(2, 2) * qGreen(img.pixel(i-1, j-1));
+
+            blue =
+                    outlineKernel(0, 0) * qBlue(img.pixel(i+1, j+1)) + outlineKernel(0, 1) * qBlue(img.pixel(i, j+1)) + outlineKernel(0, 2) * qBlue(img.pixel(i-1, j+1)) +
+                    outlineKernel(1, 0) * qBlue(img.pixel(i+1, j)) + outlineKernel(1, 1) * qBlue(img.pixel(i, j)) + outlineKernel(1, 2) * qBlue(img.pixel(i-1, j)) +
+                    outlineKernel(2, 0) * qBlue(img.pixel(i+1, j-1)) + outlineKernel(2, 1) * qBlue(img.pixel(i, j-1)) + outlineKernel(2, 2) * qBlue(img.pixel(i-1, j-1));
+
+            img.setPixel(i, j, qRgb(abs(red), abs(green), abs(blue)));
+        }
+    }
+
+    ui->label->setPixmap(QPixmap::fromImage(img));
 }
 
 void FilterWindow::on_action_Help_triggered()

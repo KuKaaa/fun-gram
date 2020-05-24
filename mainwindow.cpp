@@ -19,21 +19,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     scribbleArea = new ScribbleArea;
-    //QIcon icon(":/icons/appIcon.png");
+    QIcon icon(":/icons/img/mainicon16x.png");
 
     setCentralWidget(scribbleArea);
     createActs();
     createMenu();
     setWindowTitle("Fun-Gram");
     setMinimumSize(1280, 720);
-    //setWindowIcon(icon);
-
-    //ui->setupUi(this);
-    //this->setWindowTitle("Fun-Gram");
-    //this->setWindowIcon();
-    //this->setMinimumSize(1280, 720);
-
-
+    setWindowIcon(icon);
 }
 
 /* MainWindow Destructor */
@@ -90,12 +83,13 @@ void MainWindow::about()
 {
     QMessageBox aboutBox;
     aboutBox.setWindowTitle("About Fun-Gram");
-    aboutBox.setInformativeText("Fun-Gram is a free paint type application, that let's you draw and edit raster graphics");
-    aboutBox.setStyleSheet("background: #FFFFFF; border: none; font-family: Cambria; font-style: bold; font-size: 16px; color: #000000;");
+    QIcon icon(":/icons/img/info");
+
+    aboutBox.setWindowIcon(icon);
+    aboutBox.setText(tr("Fun-Gram is a free paint type application, that let's you draw and edit raster graphics"));
 
     QAbstractButton* bttn;
     bttn = aboutBox.addButton(tr("Great!"), QMessageBox::YesRole);
-    bttn->setStyleSheet("background: #FFFFFF; font-family: Cambria; color: #000000");
 
     aboutBox.exec();
 }
@@ -215,14 +209,13 @@ void MainWindow::exit()
 {
     QMessageBox closeMsg;
     closeMsg.setWindowTitle(tr("Exit"));
-    //closeMsg.setIcon();
-    closeMsg.setInformativeText("Are you really want to exit?");
+    QIcon exitI(":/icons/img/exit.png");
+
+    closeMsg.setWindowIcon(exitI);
+    closeMsg.setText(tr("Are you really want to exit?"));
 
     QAbstractButton* bttnY = closeMsg.addButton(tr("Yes"), QMessageBox::YesRole);
     closeMsg.addButton(tr("No"), QMessageBox::NoRole);
-
-    closeMsg.setStyleSheet("background: #FFFFFF; border: none; font-family: Cambria; font-style: bold; font-size: 16px; color: #000000;");
-    bttnY->setStyleSheet("background: #FFFFFF; font-family: Cambria; color: #000000");
 
     closeMsg.exec();
 

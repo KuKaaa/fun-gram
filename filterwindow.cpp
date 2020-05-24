@@ -17,9 +17,9 @@ FilterWindow::FilterWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("Fun-Gram(Filter)");
+    this->setWindowTitle("Fun-Gram(Filters)");
 
-    QIcon icon("");
+    QIcon icon(":/icons/img/16.png");
     this->setWindowIcon(icon);
     this->setMinimumSize(1600, 900);
 
@@ -59,7 +59,9 @@ void FilterWindow::on_action_Quit_triggered()
 
     QMessageBox closeMsg;
     closeMsg.setWindowTitle(tr("Exit"));
-    //closeMsg.setIcon();
+    QIcon icon(":/icons/img/exit.png");
+
+    closeMsg.setWindowIcon(icon);
     closeMsg.setText(tr("Are you really want to exit?"));
 
     QAbstractButton* bttnY = closeMsg.addButton(tr("Yes"), QMessageBox::YesRole);
@@ -184,6 +186,9 @@ void FilterWindow::on_action_Help_triggered()
 {
     QMessageBox helpMsg;
     helpMsg.setWindowTitle("Help");
+    QIcon icon(":/icons/img/info.png");
+
+    helpMsg.setWindowIcon(icon);
     helpMsg.setText(tr("If you want to filter image, firstly you have to load that image simply by pressing \"Open\" in menu bar then search for \"Filter\""
                        "and choose filter you want to use!"));
 
@@ -197,7 +202,9 @@ void FilterWindow::on_action_About_filters_triggered()
 {
     QMessageBox redirectMsg;
     redirectMsg.setWindowTitle(tr("About filtering"));
-    //closeMsg.setIcon();
+    QIcon icon(":/icons/img/web.png");
+
+    redirectMsg.setWindowIcon(icon);
     redirectMsg.setText(tr("You are about to be redirected to an external page!\nContinue?"));
 
     QAbstractButton* bttn;
